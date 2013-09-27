@@ -1,0 +1,129 @@
+<!DOCTYPE html><html lang="en"> <head> <meta charset="utf-8"> <title>Chain</title> <link rel="stylesheet" href="css/normalize.css"> <link rel="stylesheet" href="css/style.css"> <!-- <script src="script.js"></script> --> </head> <body> <!-- page content --> <div class="to-top"> <div>&uarr;</div> <a href="#"></a> </div> <a href="https://github.com/phosor/chain"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" alt="Fork me on GitHub"></a> <div class="container"> <h1 class="heading">Chain</h1> <div class="content-block"> <div class="menu"> <ul> <li><a href="#download"><span>Скачивание</span></a></li> <li><a href="#install"><span>Установка</span></a></li> <li><a href="#api"><span>API</span></a></li> <li><a href="#examples"><span>Примеры</span></a></li> <li><a href="#license"><span>Лицензия</span></a></li> </ul> </div> <div class="content"> <p><strong>Chain</strong> — очень маленькая библиотека для создания <em>цепочек</em>, состоящих<br>из <em>синхронных</em> и <em>асинхронных</em> функций, для обработки ваших данных.</p>
+<pre><code class="lang-javascript">chain.
+  when(storage.get(<span class="string">'url'</span>));
+  defer(<span class="keyword">function</span>(data, done) {
+    http.get(data[<span class="number">0</span>].url, done);
+  });
+  then(<span class="keyword">function</span>(request) { <span class="keyword">return</span> request.data; }).
+  end();</code></pre>
+<p><h2 id="download">Скачивание</h2></p>
+<p><button>Для разработки</button> 58kb, Full source, tons of comments</p>
+<p><button>Для использования</button> 6.3kb, Packed and gzipped</p>
+<p><h2 id="install">Установка</h2><br>Для использования <em>Chain</em> в браузере добавьте подключение скрипта на вашу страницу.</p>
+<pre><code class="lang-xml"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"js/chain.dev.js"</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></code></pre>
+<p><h2 id="api">API</h2><br><em>Chain</em> имеет простой программный интерфейс, состоящий всего из 5 функций.</p>
+<h3><code>new Chain | Chain()</code></h3>
+<p>Конструктор для новой <em>цепи</em>. Возвращает <em>объект</em>, экземпляр класса <code>Chain</code>.<br>Объект хранит все функции цепи.</p>
+<pre><code class="lang-javascript"><span class="keyword">var</span> testChain = Chain();</code></pre>
+<h3><code>.then(Function) | .then(Array.&lt;Function&gt;)</code></h3>
+<p>Добавляет <em>синхронные</em> функции в <em>цепь</em>. В качестве аргумента может быть<br>как одиночная функция, так и <em>массив</em> функций. Возвращает <em>цепь</em>,<br>для которой вызван этот <em>метод</em>.</p>
+<pre><code class="lang-javascript">testChain.
+  then(<span class="keyword">function</span>() { <span class="keyword">return</span> <span class="number">0</span>; }); <span class="comment">// возвращает testChain</span></code></pre>
+<h3><code>.defer(Function) | .defer(Array.&lt;Function&gt;)</code></h3>
+<p>Добавляет <em>асинхронную</em> функцию в <em>цепь</em>. В качестве аргумента может быть<br>как одиночная функция, так и <em>массив</em> функций. Возвращает <em>цепь</em>,<br>для которой вызван этот <em>метод</em>.</p>
+<pre><code class="lang-javascript">testChain.
+  defer(<span class="keyword">function</span>(n, done) { done(<span class="number">0</span>); });
+  <span class="comment">// возвращает testChain</span></code></pre>
+<h3><code>.when(Chain) | .when(Array.&lt;Chain&gt;)</code></h3>
+<p>Добавляет <em>цепь</em> в <em>цепь</em>. Проще говоря, соединяет две и более <em>цепей</em> в одну.<br>В качестве аргумента может быть как одиночная цепь, так и <em>массив</em> цепей.<br>Возвращает <em>цепь</em>, для которой вызван этот <em>метод</em>.</p>
+<pre><code class="lang-javascript"><span class="keyword">var</span> anotherChain = Chain();
+
+testChain.
+  when(anotherChain); <span class="comment">// возвращает testChain</span></code></pre>
+<h3><code>.end([Function])</code></h3>
+<p>Инициирует выполнение <em>цепи</em>. До вызова этой функции ни одна функция цепи<br>не будет выполнена. Указанная функция вызывается при завершении<br>выполнения. Указание функции необязательно. Возвращает <em>цепь</em>,<br>для которой вызван этот <em>метод</em>.</p>
+<pre><code class="lang-javascript">testChain.
+  end(<span class="keyword">function</span>(result) { console.log(result); });
+  <span class="comment">// возвращает testChain</span></code></pre>
+<p><h2 id="examples">Примеры</h2><br>Простое вычисление:</p>
+<pre><code class="lang-javascript"><span class="keyword">var</span> calculate = Chain();
+
+calculate.
+  then(<span class="keyword">function</span>() { <span class="keyword">return</span> <span class="number">0</span>; }).
+  then(<span class="keyword">function</span>(result) { <span class="keyword">return</span> result + <span class="number">5</span>; }).
+  then(<span class="keyword">function</span>(result) { <span class="keyword">return</span> result + <span class="number">10</span>; }).
+  end(<span class="keyword">function</span>(result) { console.log(result); }); <span class="comment">//выведет 15</span></code></pre>
+<p>Простое вычисление с использованием массива:</p>
+<pre><code class="lang-javascript"><span class="keyword">var</span> calculate = Chain();
+
+<span class="function"><span class="keyword">function</span> <span class="title">zero</span><span class="params">()</span> {</span> <span class="keyword">return</span> <span class="number">0</span>; }
+
+<span class="function"><span class="keyword">function</span> <span class="title">plus5</span><span class="params">(result)</span> {</span> <span class="keyword">return</span> result + <span class="number">5</span>; }
+
+<span class="function"><span class="keyword">function</span> <span class="title">plus10</span><span class="params">(result)</span> {</span> <span class="keyword">return</span> result + <span class="number">10</span>; }
+
+calculate.
+  then([zero, plus5, plus10]).
+  end(<span class="keyword">function</span>(result) { console.log(result); }); <span class="comment">//выведет 15</span></code></pre>
+<p>Отложенное вычисление:</p>
+<pre><code class="lang-javascript"><span class="keyword">var</span> fifteen = Chain();
+
+<span class="function"><span class="keyword">function</span> <span class="title">log</span><span class="params">(result)</span> {</span> console.log(result); }
+
+<span class="function"><span class="keyword">function</span> <span class="title">zero</span><span class="params">()</span> {</span> <span class="keyword">return</span> <span class="number">0</span>; }
+
+<span class="function"><span class="keyword">function</span> <span class="title">five</span><span class="params">(result, done)</span> {</span> done(result + <span class="number">5</span>); }
+
+<span class="function"><span class="keyword">function</span> <span class="title">ten</span><span class="params">(result, done)</span> {</span>
+  setTimeout(<span class="keyword">function</span>() {
+    done(result + <span class="number">10</span>);
+  }, <span class="number">500</span>);
+}
+
+fifteen.
+  then(zero).
+  defer(five).
+  defer(ten).
+  end(log); <span class="comment">// выведет 15</span></code></pre>
+<p>Отложенное вычисление с использованием массива:</p>
+<pre><code class="lang-javascript"><span class="keyword">var</span> fifteen = Chain();
+
+<span class="function"><span class="keyword">function</span> <span class="title">log</span><span class="params">(result)</span> {</span> console.log(result); }
+
+<span class="function"><span class="keyword">function</span> <span class="title">zero</span><span class="params">()</span> {</span> <span class="keyword">return</span> <span class="number">0</span>; }
+
+<span class="function"><span class="keyword">function</span> <span class="title">plus5</span><span class="params">(result, done)</span> {</span> done(result + <span class="number">5</span>); }
+
+<span class="function"><span class="keyword">function</span> <span class="title">plus10</span><span class="params">(result, done)</span> {</span>
+  setTimeout(<span class="keyword">function</span>() {
+    done(result + <span class="number">10</span>);
+  }, <span class="number">500</span>);
+}
+
+fifteen.
+  then(zero).
+  defer([plus5, plus10]).
+  end(log); <span class="comment">// выведет 15</span></code></pre>
+<p>Вычисление с цепочками:</p>
+<pre><code class="lang-javascript"><span class="keyword">var</span> five = Chain(), ten = Chain();
+
+<span class="function"><span class="keyword">function</span> <span class="title">log</span><span class="params">(result)</span> {</span> console.log(result); }
+
+<span class="function"><span class="keyword">function</span> <span class="title">zero</span><span class="params">()</span> {</span> <span class="keyword">return</span> <span class="number">0</span>; }
+
+<span class="function"><span class="keyword">function</span> <span class="title">five</span><span class="params">(result, done)</span> {</span> done(result + <span class="number">5</span>); }
+
+<span class="function"><span class="keyword">function</span> <span class="title">ten</span><span class="params">(result, done)</span> {</span>
+  setTimeout(<span class="keyword">function</span>() {
+    done(result + <span class="number">10</span>);
+  }, <span class="number">500</span>);
+}
+
+five.
+  then(zero).
+  defer(five);
+
+ten.
+  then(zero).
+  defer(ten);
+
+Chain().
+  when(five).
+  when(ten).
+  end(log); <span class="comment">// выведет [5, 10]</span>
+
+Chain().
+  when([five, ten]).
+  end(log); <span class="comment">// выведет [5, 10]</span></code></pre>
+<p><h2 id="license">Лицензия</h2><br>Исходный код распространяется по лицензии <a href="http://github.com/phosor/chain/license" title="MIT">MIT</a>.</p>
+ </div> <div class="clearfix"></div> </div> <p class="design-idea">Идея дизайна - <a href="#">Кто-то там</a>.</p> </div> </body></html>
