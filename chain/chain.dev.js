@@ -65,8 +65,8 @@ Chain.prototype.when = function(chains) {
   if (!(chains instanceof Array)) { chains = [chains]; }
 
   for (i = 0; i < chains.length; i++) {
+    last = elements[elements.length - 1];
     if ((last && last.type == CHAIN) || i > 0) {
-      last = elements[elements.length - 1],
       last.chains.push(chains[i]);
     } else {
       element = {type: CHAIN, chains: [chains[i]]};
@@ -139,7 +139,7 @@ Chain.prototype.$done = function(done) {
   this.$running = false;
 
   for (i = 0; i < this.$listeners.length; i++) {
-    this.$listeners[i](result);
+    this.$listeners[i](this.$result);
   }
   this.$listeners = [];
 };
