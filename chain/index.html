@@ -1,9 +1,10 @@
 <!DOCTYPE html><html lang="en"> <head> <meta charset="utf-8"> <title>Chain</title> <link rel="stylesheet" href="css/normalize.css"> <link rel="stylesheet" href="css/style.css"> <!-- <script src="script.js"></script> --> <script type="text/javascript"> var _gaq = _gaq || []; _gaq.push(['_setAccount', 'UA-44402784-1']); _gaq.push(['_trackPageview']); (function() { var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true; ga.src = ('https:' == document.location.protocol ?  'https://ssl' : 'http://www') + '.google-analytics.com/ga.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s); })(); </script> </head> <body> <!-- page content --> <div class="to-top"> <div>&uarr;</div> <a href="#"></a> </div> <div class="container"> <h1 class="heading">Chain</h1> <div class="content-block"> <div class="menu"> <ul> <li><a href="#download"><span>Скачивание</span></a></li> <li><a href="#install"><span>Установка</span></a></li> <li><a href="#api"><span>API</span></a></li> <li><a href="#examples"><span>Примеры</span></a></li> <li><a href="#license"><span>Лицензия</span></a></li> </ul> </div> <div class="content"> <p><strong>Chain</strong> — очень маленькая библиотека для создания <em>цепочек</em>, состоящих<br>из <em>синхронных</em> и <em>асинхронных</em> функций, для обработки ваших данных.</p>
+<p>Также, читайте статью на <a href="http://habrahabr.ru/post/195588/" title="[UPD] Chain.js: связываем синхронные и асинхронные функции в цепи">Хабре</a>.</p>
 <pre><code class="lang-javascript">chain.
   when(storage.get(<span class="string">'url'</span>));
   defer(<span class="keyword">function</span>(data, done) {
     http.get(data[<span class="number">0</span>].url, done);
-  });
+  }).
   then(<span class="keyword">function</span>(request) { <span class="keyword">return</span> request.data; }).
   end();</code></pre>
 <p><h2 id="download">Скачивание</h2></p>
